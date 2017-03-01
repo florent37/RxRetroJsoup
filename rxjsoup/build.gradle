@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    compile 'org.jsoup:jsoup:1.10.2'
+    compile 'io.reactivex:rxjava:1.2.7'
+}

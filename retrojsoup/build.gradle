@@ -2,3 +2,32 @@ apply plugin: 'java'
 
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'retrojsoup'
+    orgName = 'florent37'
+
+    publishedGroupId = 'com.github.florent37'
+    libraryName = 'RetroJsoup'
+    artifact = 'retrojsoup'
+
+    libraryDescription = ''
+
+    siteUrl = 'https://github.com/florent37/RxRetroJsoup'
+    gitUrl = 'https://github.com/florent37/RxRetroJsoup.git'
+
+    libraryVersion = rootProject.ext.libraryVersion
+
+    developerId = 'florent37'
+    developerName = 'florent37'
+    developerEmail = 'champigny.florent@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
+apply from: rootProject.file('gradle/install-v1.gradle')
+apply from: rootProject.file('gradle/bintray-java-v1.gradle')

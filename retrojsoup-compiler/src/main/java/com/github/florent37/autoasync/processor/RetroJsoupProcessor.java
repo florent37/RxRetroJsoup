@@ -103,10 +103,10 @@ public class RetroJsoupProcessor extends AbstractProcessor {
             jsoupModels.add(field.getEnclosingElement());
         }
 
-        processJoupModels(jsoupModels);
+        processJsoupModels(jsoupModels);
     }
 
-    private void processJoupModels(Set<Element> jsoupModels) {
+    private void processJsoupModels(Set<Element> jsoupModels) {
         for (Element jsoupModel : jsoupModels) {
 
             final ClassName classFullName = ClassName.get((TypeElement) jsoupModel); //com.github.florent37.sample.TutoAndroidFrance

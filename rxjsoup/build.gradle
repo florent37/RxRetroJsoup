@@ -6,6 +6,9 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 dependencies {
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'io.reactivex:rxjava:1.2.7'
+
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
 
 ext {

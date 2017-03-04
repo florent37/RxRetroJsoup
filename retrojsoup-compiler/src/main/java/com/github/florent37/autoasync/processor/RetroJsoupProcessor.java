@@ -226,9 +226,8 @@ public class RetroJsoupProcessor extends AbstractProcessor {
 
         builder.addMethod(MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ClassName.get(String.class), "url")
-                .addParameter(ClassName.get(Boolean.class), "exceptionIfNotFound")
-                .addStatement("this.rxJsoup = new RxJsoup(url, exceptionIfNotFound)")
+                .addParameter(ClassName.get(RxJsoup.class), "rxJsoup")
+                .addStatement("this.rxJsoup = rxJsoup")
                 .build());
 
 

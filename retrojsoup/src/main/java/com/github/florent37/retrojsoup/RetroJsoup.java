@@ -1,7 +1,11 @@
 package com.github.florent37.retrojsoup;
 
+import com.github.florent37.rxjsoup.RxJsoup;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by florentchampigny on 01/03/2017.
@@ -12,6 +16,7 @@ public class RetroJsoup {
 
     private String url;
     private Boolean exceptionIfNotFound;
+    private OkHttpClient okHttpClient;
 
     private RetroJsoup() {
     }
@@ -19,8 +24,11 @@ public class RetroJsoup {
     public <T> T create(Class<T> theClass) {
         try {
             final Class<?> aClass = Class.forName(theClass.getCanonicalName() + RETRO_JSOUP);
-            final Constructor<?> constructor = aClass.getDeclaredConstructor(String.class, Boolean.class);
-            final T instance = (T) constructor.newInstance(url, exceptionIfNotFound);
+            final Constructor<?> constructor = aClass.getDeclaredConstructor(RxJsoup.class);
+
+            final RxJsoup rxJsoup = new RxJsoup(url, exceptionIfNotFound, okHttpClient);
+
+            final T instance = (T) constructor.newInstance(rxJsoup);
             return instance;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -40,7 +48,14 @@ public class RetroJsoup {
         private String url;
         private boolean exceptionIfNotFound = false;
 
+        private OkHttpClient okHttpClient;
+
         public Builder() {
+        }
+
+        public Builder okHttpClient(OkHttpClient okHttpClient){
+            this.okHttpClient = okHttpClient;
+            return this;
         }
 
         public Builder url(String url) {
@@ -56,6 +71,7 @@ public class RetroJsoup {
         public RetroJsoup build() {
             final RetroJsoup retroJsoup = new RetroJsoup();
             retroJsoup.url = this.url;
+            retroJsoup.okHttpClient = this.okHttpClient;
             retroJsoup.exceptionIfNotFound = this.exceptionIfNotFound;
             return retroJsoup;
         }

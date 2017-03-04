@@ -3,6 +3,11 @@ apply plugin: 'java'
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
 
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile project(':rxjsoup')
+}
+
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'retrojsoup'

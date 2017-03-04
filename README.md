@@ -40,6 +40,10 @@ Build a RetroJsoup
 ```java
 final TutosAndroidFrance tutosAndroidFrance = new RetroJsoup.Builder()
                 .url("http://tutos-android-france.com/")
+
+                //optionally
+                .okHttpClient(your_okhttp_client)
+
                 .build()
                 .create(TutosAndroidFrance.class);
 ```
@@ -69,6 +73,26 @@ RxJsoup.with(url)
     .flatMap(element -> rxJsoup.text(element, ".entry-title a"))
     .subscribe(text -> {});
 
+
+    .flatMap(element -> rxJsoup.src(element, ".entry img"))
+    .flatMap(element -> rxJsoup.href(element, ".entry a"))
+    .flatMap(element -> rxJsoup.attr(element, ".entry h1", "id"))
+
+
+```
+
+```java
+RxJsoup.connect(
+
+           Jsoup.connect("www.thewebsite.com")
+               .userAgent(MY_USER_AGENT)
+               .data("credential", email)
+               .data("pwd", password)
+               .cookies(loginForm.cookies())
+               .method(Connection.Method.POST)
+
+           )
+           .subscibe(response -> {})
 ```
 
 
@@ -86,6 +110,9 @@ annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.0'
 //don't forget to include jsoup & rxjava
 compile 'org.jsoup:jsoup:1.10.2'
 compile 'io.reactivex:rxjava:1.2.7'
+
+//optionaly
+compile 'com.squareup.okhttp3:okhttp:3.6.0'
 ```
 
 # Credits

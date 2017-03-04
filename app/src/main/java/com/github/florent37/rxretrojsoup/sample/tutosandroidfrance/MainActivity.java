@@ -10,6 +10,7 @@ import com.github.florent37.rxretrojsoup.R;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -33,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadWithRetroJsoup() {
+        final OkHttpClient okHttpClient = new OkHttpClient();
+
         final TutosAndroidFrance tutosAndroidFrance = new RetroJsoup.Builder()
                 .url("http://tutos-android-france.com/")
+                .okHttpClient(okHttpClient)
                 .build()
                 .create(TutosAndroidFrance.class);
 

@@ -24,6 +24,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.2.0'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
     compile project(':rxjsoup')
     compile project(':retrojsoup')

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         final TutosAndroidFrance tutosAndroidFrance = new RetroJsoup.Builder()
                 .url("http://tutos-android-france.com/")
-                .okHttpClient(okHttpClient)
+                .client(okHttpClient)
                 .build()
                 .create(TutosAndroidFrance.class);
 

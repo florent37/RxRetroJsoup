@@ -53,7 +53,7 @@ public class RetroJsoup {
         public Builder() {
         }
 
-        public Builder okHttpClient(OkHttpClient okHttpClient){
+        public Builder client(OkHttpClient okHttpClient){
             this.okHttpClient = okHttpClient;
             return this;
         }

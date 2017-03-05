@@ -42,7 +42,7 @@ final TutosAndroidFrance tutosAndroidFrance = new RetroJsoup.Builder()
                 .url("http://tutos-android-france.com/")
 
                 //optionally
-                .okHttpClient(your_okhttp_client)
+                .client(your_okhttp_client)
 
                 .build()
                 .create(TutosAndroidFrance.class);

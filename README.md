@@ -12,7 +12,7 @@ public interface TutosAndroidFrance {
 }
 ```
 
-Annotate your model
+Annotate your model with Jsoup queries ( https://jsoup.org/cookbook/extracting-data/selector-syntax )
 
 ```java
 

@@ -2,7 +2,7 @@ package com.github.florent37.rxretrojsoup.sample.androidarsenal;
 
 import com.github.florent37.retrojsoup.annotations.Select;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by florentchampigny on 01/03/2017.

@@ -9,14 +9,17 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
 
 public class RxJsoup {
 
@@ -45,17 +48,18 @@ public class RxJsoup {
     //
     //                  ).subscibe( response -> {})
     public static Observable<Connection.Response> connect(final Connection jsoupConnection) {
-        return Observable.create(new Observable.OnSubscribe<Connection.Response>() {
+        return Observable.create(new ObservableOnSubscribe<Connection.Response>() {
             @Override
-            public void call(Subscriber<? super Connection.Response> subscriber) {
+            public void subscribe(ObservableEmitter<Connection.Response> observableEmitter) throws Exception {
                 try {
                     final Connection.Response response = jsoupConnection.execute();
-                    subscriber.onNext(response);
-                    subscriber.onCompleted();
+                    observableEmitter.onNext(response);
+                    observableEmitter.onComplete();
                 } catch (Exception e) {
-                    subscriber.onError(e);
+                    observableEmitter.onError(e);
                 }
             }
+
         });
     }
 
@@ -69,17 +73,17 @@ public class RxJsoup {
     }
 
     public Observable<String> attr(final Element element, final String expression, final String attr) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {
                 final Elements elements = element.select(expression);
                 if (elements.isEmpty() && exceptionIfNotFound) {
-                    subscriber.onError(new NotFoundException(expression, element.toString()));
+                    observableEmitter.onError(new NotFoundException(expression, element.toString()));
                 } else {
                     for (Element e : elements) {
-                        subscriber.onNext(e.attr(attr));
+                        observableEmitter.onNext(e.attr(attr));
                     }
-                    subscriber.onCompleted();
+                    observableEmitter.onComplete();
                 }
             }
         });
@@ -94,17 +98,17 @@ public class RxJsoup {
     }
 
     public Observable<String> text(final Element element, final String expression) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {
                 final Elements elements = element.select(expression);
                 if (elements.isEmpty() && exceptionIfNotFound) {
-                    subscriber.onError(new NotFoundException(expression, element.toString()));
+                    observableEmitter.onError(new NotFoundException(expression, element.toString()));
                 } else {
                     for (Element e : elements) {
-                        subscriber.onNext(e.text());
+                        observableEmitter.onNext(e.text());
                     }
-                    subscriber.onCompleted();
+                    observableEmitter.onComplete();
                 }
             }
         });
@@ -114,9 +118,9 @@ public class RxJsoup {
         if (document != null) {
             return Observable.just(document);
         } else {
-            return Observable.create(new Observable.OnSubscribe<Document>() {
+            return Observable.create(new ObservableOnSubscribe<Document>() {
                 @Override
-                public void call(final Subscriber<? super Document> subscriber) {
+                public void subscribe(final ObservableEmitter<Document> observableEmitter) throws Exception {
                     if (okHttpClient != null) {
                         final Request request = new Request.Builder()
                                 .url(url)
@@ -125,24 +129,24 @@ public class RxJsoup {
                         okHttpClient.newCall(request).enqueue(new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
-                                subscriber.onError(e);
+                                observableEmitter.onError(e);
                             }
 
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 document = Jsoup.parse(response.body().string(), url);
-                                subscriber.onNext(document);
-                                subscriber.onCompleted();
+                                observableEmitter.onNext(document);
+                                observableEmitter.onComplete();
                             }
                         });
                     } else {
                         //use default jsoup http client
                         try {
                             document = Jsoup.connect(url).get();
-                            subscriber.onNext(document);
-                            subscriber.onCompleted();
+                            observableEmitter.onNext(document);
+                            observableEmitter.onComplete();
                         } catch (Exception e) {
-                            subscriber.onError(e);
+                            observableEmitter.onError(e);
                         }
                     }
                 }
@@ -154,41 +158,39 @@ public class RxJsoup {
 
     public Observable<Element> select(final String expression) {
         return document().flatMap(
-                new Func1<Document, Observable<? extends Element>>() {
+                new Function<Document, ObservableSource<Element>>() {
                     @Override
-                    public Observable<? extends Element> call(final Document document) {
-                        return Observable.create(new Observable.OnSubscribe<Element>() {
+                    public ObservableSource<Element> apply(@NonNull final Document document) throws Exception {
+                        return Observable.create(new ObservableOnSubscribe<Element>() {
                             @Override
-                            public void call(Subscriber<? super Element> subscriber) {
+                            public void subscribe(ObservableEmitter<Element> observableEmitter) {
                                 final Elements elements = document.select(expression);
                                 if (elements.isEmpty() && exceptionIfNotFound) {
-                                    subscriber.onError(new NotFoundException(expression, "document"));
+                                    observableEmitter.onError(new NotFoundException(expression, "document"));
                                 } else {
                                     for (Element element : elements) {
-                                        subscriber.onNext(element);
+                                        observableEmitter.onNext(element);
                                     }
-                                    subscriber.onCompleted();
+                                    observableEmitter.onComplete();
                                 }
                             }
                         });
                     }
-                }
-
-        );
+                });
     }
 
     public Observable<Element> getElementsByAttributeValue(final Element element, final String key, final String value) {
-        return Observable.create(new Observable.OnSubscribe<Element>() {
+        return Observable.create(new ObservableOnSubscribe<Element>() {
             @Override
-            public void call(Subscriber<? super Element> subscriber) {
+            public void subscribe(ObservableEmitter<Element> observableEmitter) throws Exception {
                 final Elements elements = element.getElementsByAttributeValue(key, value);
                 if (elements.isEmpty() && exceptionIfNotFound) {
-                    subscriber.onError(new NotFoundException(key + " " + value, element.toString()));
+                    observableEmitter.onError(new NotFoundException(key + " " + value, element.toString()));
                 } else {
                     for (Element e : elements) {
-                        subscriber.onNext(e);
+                        observableEmitter.onNext(e);
                     }
-                    subscriber.onCompleted();
+                    observableEmitter.onComplete();
                 }
             }
         });

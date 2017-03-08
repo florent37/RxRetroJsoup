@@ -20,6 +20,7 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,9 +39,8 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
-import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.FuncN;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 import static javax.lang.model.element.ElementKind.FIELD;
 import static javax.lang.model.element.ElementKind.INTERFACE;
@@ -246,27 +246,36 @@ public class RetroJsoupProcessor extends AbstractProcessor {
                         .addModifiers(Modifier.PUBLIC)
                         .returns(ParameterizedTypeName.get(ClassName.get(Observable.class), returnType))
                         .addCode("return rxJsoup.select($S)\n", annotationValue)
-                        .addCode("                .flatMap(new $T<Element, Observable<? extends $T>>() {\n", ClassName.get(Func1.class), returnType)
+                        .addCode("                .flatMap(new $T<Element, Observable<? extends $T>>() {\n", ClassName.get(Function.class), returnType)
                         .addCode("                      @Override\n")
-                        .addCode("                      public Observable<? extends $T> call($T element) {\n", returnType, ClassName.get(org.jsoup.nodes.Element.class))
-                        .addCode("                      return Observable.zip(\n")
-                        .addCode("                                  new Observable[]{\n");
+                        .addCode("                      public $T<? extends $T> apply($T element) throws $T {\n", ClassName.get(Observable.class), returnType, ClassName.get(org.jsoup.nodes.Element.class), ClassName.get(Exception.class))
+                        .addCode("                      return $T.zip(\n", ClassName.get(Observable.class))
+                        .addCode("                                  $T.asList(\n", ClassName.get(Arrays.class));
 
                 if (jsoupModelHolder != null) {
+                    int count = 0;
                     for (JsoupModelFieldHolder field : jsoupModelHolder.fields) {
                         final String rxJsoupMethod = field.forText ? "text" : field.attr;
-                        if (field.customAttr) {
-                            methodBuilder.addCode("                                          rxJsoup.attr(element, $S, $S),\n", field.jsoupQuery, field.attr);
-                        } else {
-                            methodBuilder.addCode("                                          rxJsoup.$L(element, $S),\n", rxJsoupMethod.replace("-", "_").replace(" ", "_"), field.jsoupQuery);
+
+                        String virgule = "";
+                        if(count < jsoupModelHolder.fields.size()-1){
+                            virgule = ",";
                         }
+                        count++;
+
+                        if (field.customAttr) {
+                            methodBuilder.addCode("                                          rxJsoup.attr(element, $S, $S)$L\n", field.jsoupQuery, field.attr, virgule);
+                        } else {
+                            methodBuilder.addCode("                                          rxJsoup.$L(element, $S)$L\n", rxJsoupMethod.replace("-", "_").replace(" ", "_"), field.jsoupQuery, virgule);
+                        }
+
                     }
                 }
 
-                methodBuilder.addCode("                                  },\n")
-                        .addCode("                      new $T<$T>() {\n", ClassName.get(FuncN.class), returnType)
+                methodBuilder.addCode("                                  ),\n")
+                        .addCode("                      new $T<$T[], $T>() {\n", ClassName.get(Function.class), ClassName.get(Object.class), returnType)
                         .addCode("                          @Override\n")
-                        .addCode("                          public $T call(Object... args) {\n", returnType)
+                        .addCode("                          public $T apply($T[] args)  throws $T  {\n", returnType, ClassName.get(Object.class), ClassName.get(Exception.class))
                         .addCode("                                 final $T item = new $T();\n", returnType, returnType)
                         .addCode("                                 final $L$L parser = new $L$L();\n", returnType, Constants.PARSER, returnType, Constants.PARSER);
 

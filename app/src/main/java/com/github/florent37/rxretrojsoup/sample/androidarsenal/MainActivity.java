@@ -7,12 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.github.florent37.retrojsoup.RetroJsoup;
-import com.github.florent37.rxjsoup.RxJsoup;
 import com.github.florent37.rxretrojsoup.R;
-import com.github.florent37.rxretrojsoup.sample.tutosandroidfrance.TutosAndroidFrance;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +31,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         loadWithRetroJsoup();
+
+        Observable.zip(
+                Observable.just(""),
+                Observable.just("&"),
+                new BiFunction<String, String, String>(){
+
+                    @Override
+                    public String apply(@NonNull String s, @NonNull String s2) throws Exception {
+                        return null;
+                    }
+                }
+        );
     }
 
     public void loadWithRetroJsoup() {

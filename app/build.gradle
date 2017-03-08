@@ -27,14 +27,15 @@ dependencies {
     
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
-    //compile project(':rxjsoup')
-    //compile project(':retrojsoup')
-    //annotationProcessor project(':retrojsoup-compiler')
+    compile project(':rxjsoup')
+    compile project(':retrojsoup')
+    annotationProcessor project(':retrojsoup-compiler')
 
-    compile 'com.github.florent37:retrojsoup:1.0.2'
-    compile 'com.github.florent37:rxjsoup:1.0.2'
-    annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.2'
+    //compile 'com.github.florent37:retrojsoup:1.0.2'
+    //compile 'com.github.florent37:rxjsoup:1.0.2'
+    //annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.2'
 
 
-    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

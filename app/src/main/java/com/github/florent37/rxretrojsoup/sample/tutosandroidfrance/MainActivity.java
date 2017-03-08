@@ -8,12 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import com.github.florent37.retrojsoup.RetroJsoup;
 import com.github.florent37.rxretrojsoup.R;
 
-import java.util.List;
-
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,12 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
 
                 .subscribe(
-                        new Action1<List<Article>>() {
-                            @Override
-                            public void call(List<Article> items) {
-                                adapter.addItems(items);
-                            }
-                        },
+                        adapter::addItems,
                         Throwable::printStackTrace
                 );
     }

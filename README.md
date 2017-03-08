@@ -1,5 +1,7 @@
 # RxRetroJsoup
 
+**RxJava2 ready !**
+
 Create an interface with `@Select` annotated method
 ```
 public interface TutosAndroidFrance {
@@ -56,13 +58,7 @@ tutosAndroidFrance.articles()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
 
-                .subscribe(
-                    new Action1<List<Article>>() {
-                            @Override
-                            public void call(List<Article> items) {
-
-                            }
-                });
+                .subscribe(items -> );
 ```
 
 #RxJsoup
@@ -108,7 +104,7 @@ annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.2'
 
 //don't forget to include jsoup & rxjava
 compile 'org.jsoup:jsoup:1.10.2'
-compile 'io.reactivex:rxjava:1.2.7'
+compile 'io.reactivex:rxjava:2.0.7'
 
 //optionaly
 compile 'com.squareup.okhttp3:okhttp:3.6.0'

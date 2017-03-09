@@ -104,7 +104,7 @@ annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.3'
 
 //don't forget to include jsoup & rxjava
 compile 'org.jsoup:jsoup:1.10.2'
-compile 'io.reactivex:rxjava:2.0.7'
+compile 'io.reactivex:rxjava2:2.0.7'
 
 //optionaly
 compile 'com.squareup.okhttp3:okhttp:3.6.0'

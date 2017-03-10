@@ -2,6 +2,8 @@
 
 **RxJava2 ready !**
 
+<a href="https://github.com/florent37/RxRetroJsoup/raw/master/sample-debug.apk">Sample apk</a>
+
 Create an interface with `@Select` annotated method
 ```
 public interface TutosAndroidFrance {
@@ -90,7 +92,6 @@ RxJsoup.connect(
            )
            .subscibe(response -> {})
 ```
-
 
 #Download
 

@@ -99,9 +99,9 @@ RxJsoup.connect(
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/retrojsoup-compiler/images/download.svg)](https://bintray.com/florent37/maven/retrojsoup-compiler/_latestVersion)
 ```groovy
-compile 'com.github.florent37:retrojsoup:1.0.3'
-compile 'com.github.florent37:rxjsoup:1.0.3'
-annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.3'
+compile 'com.github.florent37:retrojsoup:1.0.4'
+compile 'com.github.florent37:rxjsoup:1.0.4'
+annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.4'
 
 //don't forget to include jsoup & rxjava
 compile 'org.jsoup:jsoup:1.10.2'

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.florent37.rxretrojsoup.R;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ArticleViewHolder> {
 
     private List<Project> items = new ArrayList<>();
 
-    public void addItems(List<Project> items){
+    public void addItems(List<Project> items) {
         this.items.addAll(items);
         notifyDataSetChanged();
     }
@@ -56,7 +55,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ArticleViewHolder> {
 
         public void bind(Project project) {
             title.setText(project.title);
-            url.setText(project.href);
+            url.setText(project.description);
         }
     }
 }

@@ -21,6 +21,9 @@ public class Project {
     @JsoupText(".title :eq(1)")
     public String category;
 
+    @JsoupText(".fa.fa-android")
+    public String android;
+
     public Project() {
     }
 

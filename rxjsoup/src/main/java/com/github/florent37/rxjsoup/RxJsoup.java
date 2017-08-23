@@ -80,8 +80,12 @@ public class RxJsoup {
                 if (elements.isEmpty() && exceptionIfNotFound) {
                     observableEmitter.onError(new NotFoundException(expression, element.toString()));
                 } else {
-                    for (Element e : elements) {
-                        observableEmitter.onNext(e.attr(attr));
+                    if (elements.isEmpty()) {
+                        observableEmitter.onNext("");
+                    } else {
+                        for (Element e : elements) {
+                            observableEmitter.onNext(e.attr(attr));
+                        }
                     }
                     observableEmitter.onComplete();
                 }
@@ -105,12 +109,18 @@ public class RxJsoup {
                 if (elements.isEmpty() && exceptionIfNotFound) {
                     observableEmitter.onError(new NotFoundException(expression, element.toString()));
                 } else {
-                    for (Element e : elements) {
-                        observableEmitter.onNext(e.text());
+                    if (elements.isEmpty()) {
+                        observableEmitter.onNext("");
+                    } else {
+                        for (Element e : elements) {
+                            observableEmitter.onNext(e.text());
+                        }
                     }
                     observableEmitter.onComplete();
                 }
             }
+
+
         });
     }
 

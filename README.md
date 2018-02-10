@@ -118,7 +118,7 @@ compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
 Author: Florent Champigny [http://www.florentchampigny.com/](http://www.florentchampigny.com/)
 
-Blog : [http://www.tutos-android-france.com/](http://www.www.tutos-android-france.com/)
+Blog : [http://www.tutos-android-france.com/](http://www.tutos-android-france.com/)
 
 
 <a href="https://goo.gl/WXW8Dc">

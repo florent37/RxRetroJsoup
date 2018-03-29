@@ -10,7 +10,7 @@ import io.reactivex.Observable;
 
 public interface AndroidArsenal {
 
-    @Select("#projects .pc")
+    @Select("#projects .pi")
     Observable<Project> projects();
 
 }

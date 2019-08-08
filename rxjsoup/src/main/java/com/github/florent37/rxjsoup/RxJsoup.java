@@ -68,7 +68,7 @@ public class RxJsoup {
         return this;
     }
 
-    public RxJsoup with(String url) {
+    public static RxJsoup with(String url) {
         return new RxJsoup(url, false, null);
     }
 
